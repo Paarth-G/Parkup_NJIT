@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "821623117713",
+    "project_id": "parkin-njit",
+    "storage_bucket": "parkin-njit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821623117713:android:e7d948d1a6608b05d4ac30",
+        "android_client_info": {
+          "package_name": "com.paarthgarg.parkup_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821623117713-m8tsm8p6miqvrhql33f829fupqlrl1av.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK0OE__Ly2d8Fgoe8UlF5K7T4Gs--zMgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821623117713-m8tsm8p6miqvrhql33f829fupqlrl1av.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
