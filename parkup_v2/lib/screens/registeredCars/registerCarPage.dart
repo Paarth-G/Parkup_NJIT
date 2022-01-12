@@ -1,8 +1,8 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:parkup_v2/screens/tabBarScreen.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:parkup_v2/model/carModel.dart';
 
 class RegisterCarPage extends StatefulWidget {
@@ -48,17 +48,17 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           child: ListView(
             children: [
               Text("Make", style: infoStyle),
-              SearchableDropdown.single(
+              DropdownSearch<String>(
+                mode: Mode.MENU,
                 items: kCarMakes,
-                value: make,
+                selectedItem: make,
+                showClearButton: true,
                 hint: "Honda, Toyota, BMW, etc.",
-                searchHint: "Car Make",
                 onChanged: (value) {
                   setState(() {
                     make = value;
                   });
                 },
-                isExpanded: true,
               ),
               /*Text("Model", style: infoStyle),
               SearchableDropdown.single(
@@ -74,45 +74,45 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                 isExpanded: true,
               ),*/
               Text("Style", style: infoStyle),
-              SearchableDropdown.single(
+              DropdownSearch(
+                mode: Mode.MENU,
                 items: kStyles,
-                value: style,
+                selectedItem: style,
+                showClearButton: true,
                 hint: "SUV, Convertible, etc.",
-                searchHint: "Car Style",
                 onChanged: (value) {
                   setState(() {
                     style = value;
                   });
                 },
-                isExpanded: true,
               ),
               Text("Color", style: infoStyle),
-              SearchableDropdown.single(
+              DropdownSearch(
+                mode: Mode.MENU,
                 items: kColors,
-                value: color,
+                selectedItem: color,
+                showClearButton: true,
                 hint: "Red, Blue, White, etc.",
-                searchHint: "Color of Car",
                 onChanged: (value) {
                   setState(() {
                     color = value;
                   });
                 },
-                isExpanded: true,
               ),
               SizedBox(height: 40),
               Text("License Plate", style: infoStyle),
               licensePlateField,
-              SearchableDropdown.single(
+              DropdownSearch(
+                mode: Mode.MENU,
                 items: kStates,
-                value: state,
+                selectedItem: state,
+                showClearButton: true,
                 hint: "State",
-                searchHint: "State",
                 onChanged: (value) {
                   setState(() {
                     state = value;
                   });
                 },
-                isExpanded: true,
               ),
               SizedBox(height: 100),
             ],
