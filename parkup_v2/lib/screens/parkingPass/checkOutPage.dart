@@ -306,7 +306,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     } else if (passType == "Monthly") {
       return startTime.add(new Duration(days: 30));
     } else if (passType == "Semester") {
-      return DateTime.utc(2021, 12, 23);
+      return DateTime.utc(2022, 5, 15);
     } else {
       return startTime.add(new Duration(days: 1));
     }

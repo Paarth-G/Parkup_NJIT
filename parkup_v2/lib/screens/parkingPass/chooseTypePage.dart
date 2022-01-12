@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkup_v2/library/reusableCard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChooseTypePage extends StatelessWidget {
   ChooseTypePage({@required this.lot, @required this.address});
@@ -12,6 +13,7 @@ class ChooseTypePage extends StatelessWidget {
   );
 
   Color njitBlue = const Color(0xff010033);
+  final _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -26,35 +28,29 @@ class ChooseTypePage extends StatelessWidget {
             style: titleStyle,
           ),
           SizedBox(height: 10),
-          PassTypeButton(
-            icon: Icon(
-              Icons.access_time,
-              size: 60,
-            ),
-            lotName: lot,
-            lotAddress: address,
-            passType: "Daily",
-            passCaption: "Park up to 24 hours",
-          ),
-          PassTypeButton(
-            icon: Icon(
-              Icons.calendar_today,
-              size: 60,
-            ),
-            lotName: lot,
-            lotAddress: address,
-            passType: "Monthly",
-            passCaption: "Valid for 30 days",
-          ),
-          PassTypeButton(
-            icon: Icon(
-              Icons.local_library,
-              size: 60,
-            ),
-            lotName: lot,
-            lotAddress: address,
-            passType: "Semester",
-            passCaption: "Valid for the whole semester",
+          StreamBuilder(
+            stream:
+                _firestore.collection("passType").orderBy("type").snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              final types = snapshot.data.docs;
+              List<Widget> typeWidgets = [];
+              for (var type in types) {
+                final typeWidget = PassTypeButton(
+                  icon: Icon(Icons.access_time, size: 60),
+                  lotName: lot,
+                  lotAddress: address,
+                  passType: type.data()['type'],
+                  passCaption: type.data()['description'],
+                );
+                typeWidgets.add(typeWidget);
+              }
+              return Column(children: typeWidgets);
+            },
           ),
           SizedBox(height: 100),
         ],

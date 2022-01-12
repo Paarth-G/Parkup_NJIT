@@ -26,27 +26,28 @@ class ChooseLotPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             StreamBuilder(
-                stream: _firestore.collection('lots').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  final lots = snapshot.data.docs;
-                  List<Widget> lotWidgets = [];
-                  for (var lot in lots) {
-                    final String lotName = lot.data()['name'];
-                    print(lotName);
-                    final lotWidget = LotButton(
-                      icon: Icon(Icons.business, size: 60),
-                      lotName: lot.data()['name'],
-                      lotAddress: lot.data()['address'],
-                    );
-                    lotWidgets.add(lotWidget);
-                  }
-                  return Column(children: lotWidgets);
-                }),
+              stream: _firestore.collection('lots').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                final lots = snapshot.data.docs;
+                List<Widget> lotWidgets = [];
+                for (var lot in lots) {
+                  final String lotName = lot.data()['name'];
+                  print(lotName);
+                  final lotWidget = LotButton(
+                    icon: Icon(Icons.business, size: 60),
+                    lotName: lot.data()['name'],
+                    lotAddress: lot.data()['address'],
+                  );
+                  lotWidgets.add(lotWidget);
+                }
+                return Column(children: lotWidgets);
+              },
+            ),
             SizedBox(height: 100),
           ],
         ),
