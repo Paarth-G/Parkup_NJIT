@@ -35,7 +35,7 @@ class _PassesPageState extends State<PassesPage> {
             .map(
               (pass) => DataRow(
                 cells: [
-                  DataCell(Text(pass.parkingLot), onTap: () {
+                  DataCell(Text(pass.lot), onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -44,13 +44,7 @@ class _PassesPageState extends State<PassesPage> {
                     );
                   }),
                   DataCell(Text(pass.type)),
-                  DataCell(
-                    Text(pass.endDate.month.toString() +
-                        "/" +
-                        pass.endDate.day.toString() +
-                        "/" +
-                        pass.endDate.year.toString()),
-                  ),
+                  DataCell(Text(pass.expires.toDate().toString())),
                 ],
               ),
             )

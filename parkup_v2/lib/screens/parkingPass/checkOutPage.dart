@@ -6,6 +6,7 @@ import 'package:parkup_v2/library/reusableCard.dart';
 import 'package:parkup_v2/model/carModel.dart';
 import 'package:parkup_v2/model/creditCardModel.dart';
 import 'package:parkup_v2/model/passModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../tabBarScreen.dart';
 
@@ -14,12 +15,14 @@ class CheckOutPage extends StatefulWidget {
     @required this.lot,
     @required this.lotAddress,
     @required this.passType,
-    @required this.car,
+    @required this.color,
+    @required this.make,
+    @required this.plate,
   });
 
   final String lot, lotAddress;
   final String passType;
-  final Car car;
+  final String color, make, plate;
 
   @override
   _CheckOutPageState createState() => _CheckOutPageState();
@@ -37,6 +40,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
   var pass;
 
   Color njitBlue = const Color(0xff010033);
+
+  final _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -61,12 +66,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
             colour: Colors.grey[300],
             cardChild: Container(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     widget.passType + " Pass",
-                    style: TextStyle(fontSize: 27),
+                    style: TextStyle(
+                      fontSize: 27,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     "\$XX.XX",
@@ -95,12 +103,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           widget.lot,
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           widget.lotAddress,
                           style: TextStyle(
-                              fontSize: 10, fontStyle: FontStyle.italic),
+                              fontSize: 15, fontStyle: FontStyle.italic),
                         ),
                         SizedBox(height: 10),
                       ],
@@ -128,7 +136,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       children: [
                         SizedBox(height: 10),
                         Text(
-                          widget.car.make + " | " + widget.car.licensePlate,
+                          widget.make + " | " + widget.plate,
                           style: TextStyle(fontSize: 20),
                         ),
                         SizedBox(height: 10),
@@ -268,16 +276,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 DateTime currentTime = DateTime.now().toLocal();
                 DateTime endTime = getEndTime(widget.passType, currentTime);
 
-                pass = Pass(
-                  widget.lot,
-                  widget.lotAddress,
-                  widget.passType,
-                  currentTime,
-                  endTime,
-                  widget.car,
-                );
-
-                kPasses.add(pass);
+                _firestore.collection('passes').add({
+                  'lot': widget.lot,
+                  'address': widget.lotAddress,
+                  'type': widget.passType,
+                  'starts': currentTime,
+                  'expires': endTime,
+                  'plate': widget.plate,
+                });
 
                 Navigator.push(
                   context,

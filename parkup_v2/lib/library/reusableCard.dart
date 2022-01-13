@@ -29,18 +29,21 @@ class ReusableCard extends StatelessWidget {
 
 class LotButton extends StatelessWidget {
   LotButton({
-    @required this.icon,
+    @required this.code,
     @required this.lotName,
     @required this.lotAddress,
   });
 
-  final Icon icon;
-  final String lotName;
-  final String lotAddress;
+  final String code, lotName, lotAddress;
 
   static TextStyle lotNameStyle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
+  );
+
+  static TextStyle lotCodeStyle = TextStyle(
+    fontSize: 25,
+    //fontWeight: FontWeight.bold,
   );
 
   @override
@@ -59,27 +62,24 @@ class LotButton extends StatelessWidget {
       },
       child: Container(
         padding: EdgeInsets.all(15),
-        margin: EdgeInsets.all(15.0),
+        margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: Colors.blueGrey[200],
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            icon,
-            SizedBox(width: 15),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  lotName,
-                  style: lotNameStyle,
-                ),
+                Container(child: Text(lotName, style: lotNameStyle)),
                 SizedBox(height: 5),
-                Text(lotAddress),
+                Container(child: Text(lotAddress)),
               ],
             ),
+            Container(child: Text(code, style: lotCodeStyle)),
           ],
         ),
       ),
@@ -122,27 +122,24 @@ class PassTypeButton extends StatelessWidget {
       },
       child: Container(
         padding: EdgeInsets.all(15),
-        margin: EdgeInsets.all(15.0),
+        margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: Colors.blueGrey[200],
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            icon,
-            SizedBox(width: 15),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  passType,
-                  style: passNameStyle,
-                ),
+                Container(child: Text(passType, style: passNameStyle)),
                 SizedBox(height: 5),
-                Text(passCaption),
+                Container(child: Text(passCaption)),
               ],
             ),
+            Center(child: icon),
           ],
         ),
       ),
@@ -156,13 +153,15 @@ class CarButton extends StatelessWidget {
     @required this.lotName,
     @required this.lotAddress,
     @required this.passType,
-    @required this.car,
+    @required this.color,
+    @required this.make,
+    @required this.plate,
   });
 
   final Icon icon;
   final String lotName, lotAddress;
   final String passType;
-  final Car car;
+  final String color, make, plate;
 
   static TextStyle carNameStyle = TextStyle(
     fontSize: 25,
@@ -180,37 +179,39 @@ class CarButton extends StatelessWidget {
               lot: lotName,
               lotAddress: lotAddress,
               passType: passType,
-              car: car,
+              color: color,
+              make: make,
+              plate: plate,
             ),
           ),
         );
       },
       child: Container(
         padding: EdgeInsets.all(15),
-        margin: EdgeInsets.all(15.0),
+        margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: Colors.blueGrey[200],
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            icon,
-            SizedBox(width: 20),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  car.color + " " + car.make,
+                  color + " " + make,
                   style: carNameStyle,
                 ),
                 SizedBox(height: 5),
                 Text(
-                  car.licensePlate,
+                  plate,
                   style: TextStyle(fontSize: 20),
                 ),
               ],
             ),
+            icon,
           ],
         ),
       ),

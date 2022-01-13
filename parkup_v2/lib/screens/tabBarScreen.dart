@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:parkup_v2/screens/parkingPass/viewPassesPage.dart';
+import 'package:parkup_v2/screens/registeredCars/viewCarsPage.dart';
 import 'parkingPass/passesPage.dart';
-import 'registeredCars/carsPage.dart';
 import 'profilePage.dart';
 
 class TabBarScreen extends StatefulWidget {
@@ -17,8 +18,8 @@ class _TabBarScreenState extends State<TabBarScreen> {
   void initState() {
     super.initState();
     listScreens = [
-      PassesPage(),
-      CarPage(),
+      ViewPassesPage(),
+      ViewCarsPage(),
       ProfilePage(),
     ];
   }

@@ -38,7 +38,7 @@ class ShowQRPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              pass.parkingLot,
+              pass.lot,
               style: TextStyle(fontSize: 30),
             ),
             SizedBox(height: 10),
@@ -51,12 +51,12 @@ class ShowQRPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              "Expires on " +
-                  (pass.endDate.month.toString() +
-                      "/" +
-                      pass.endDate.day.toString() +
-                      "/" +
-                      pass.endDate.year.toString()),
+              "Expires: " +
+                  pass.expires.toDate().month.toString() +
+                  "/" +
+                  pass.expires.toDate().day.toString() +
+                  "/" +
+                  pass.expires.toDate().year.toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,

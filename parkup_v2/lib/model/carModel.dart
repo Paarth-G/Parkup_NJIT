@@ -1,23 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Car {
   // Properties of a registered Car
   final String make;
-  // final String model;
   final String style;
   final String color;
   final String licensePlate;
   final String state;
+  final DocumentReference reference;
 
-  // Constructor
-  Car({
-    this.make,
-    //this.model,
-    this.style,
-    this.color,
-    this.licensePlate,
-    this.state,
-  });
+  Car.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['make'] != null),
+        assert(map['style'] != null),
+        assert(map['color'] != null),
+        assert(map['licensePlate'] != null),
+        assert(map['state'] != null),
+        make = map['make'],
+        style = map['style'],
+        color = map['color'],
+        licensePlate = map['licensePlate'],
+        state = map['state'];
+
+  Car.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 }
 
 List<Car> kCars = [];

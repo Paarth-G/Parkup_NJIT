@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parkup_v2/model/carModel.dart';
 import 'package:parkup_v2/library/reusableCard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChooseCarPage extends StatelessWidget {
   ChooseCarPage({
@@ -10,6 +11,7 @@ class ChooseCarPage extends StatelessWidget {
   });
 
   final String lot, address, type;
+  final _firestore = FirebaseFirestore.instance;
 
   static TextStyle titleStyle = TextStyle(
     fontSize: 30,
@@ -20,35 +22,43 @@ class ChooseCarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> carList = [];
-
-    for (Car car in kCars) {
-      carList.add(CarButton(
-        icon: Icon(
-          Icons.directions_car,
-          size: 80,
-        ),
-        lotName: lot,
-        lotAddress: address,
-        passType: type,
-        car: car,
-      ));
-    }
-
     return Scaffold(
-      appBar: AppBar(backgroundColor: njitBlue),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Select Car",
-              style: titleStyle,
-            ),
-            Column(children: carList),
-          ],
-        ),
+      appBar: AppBar(backgroundColor: njitBlue, title: Text("Which Car")),
+      body: ListView(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 10),
+              StreamBuilder(
+                stream: _firestore.collection("cars").snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final cars = snapshot.data.docs;
+                  List<Widget> typeWidgets = [];
+                  for (var c in cars) {
+                    final typeWidget = CarButton(
+                      icon: Icon(Icons.directions_car, size: 80),
+                      lotName: lot,
+                      lotAddress: address,
+                      passType: type,
+                      color: c.data()['color'],
+                      make: c.data()['make'],
+                      plate: c.data()['licensePlate'],
+                    );
+                    typeWidgets.add(typeWidget);
+                  }
+                  return Column(children: typeWidgets);
+                },
+              ),
+              SizedBox(height: 100),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -1,9 +1,8 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:parkup_v2/screens/tabBarScreen.dart';
 import 'package:parkup_v2/model/carModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterCarPage extends StatefulWidget {
   @override
@@ -12,6 +11,7 @@ class RegisterCarPage extends StatefulWidget {
 
 class _RegisterCarPageState extends State<RegisterCarPage> {
   final List<DropdownMenuItem> items = [];
+  final _firestore = FirebaseFirestore.instance;
 
   TextStyle infoStyle = TextStyle(
     fontSize: 25,
@@ -130,13 +130,14 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                     color != null &&
                     plate != null &&
                     state != null) {
-                  kCars.add(Car(
-                    make: make,
-                    style: style,
-                    color: color,
-                    licensePlate: plate,
-                    state: state,
-                  ));
+                  _firestore.collection('cars').add({
+                    'make': make,
+                    'style': style,
+                    'color': color,
+                    'licensePlate': plate,
+                    'state': state,
+                  });
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => TabBarScreen()),
