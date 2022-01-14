@@ -8,6 +8,14 @@ class ShowQRPage extends StatelessWidget {
 
   Color njitBlue = const Color(0xff010033);
 
+  String formattedTime() {
+    int hour = pass.expires.toDate().hour % 12;
+    int minute = pass.expires.toDate().minute;
+    String ampm = pass.expires.toDate().hour > 12 ? " PM" : " AM";
+
+    return hour.toString() + ":" + minute.toString() + ampm;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +64,9 @@ class ShowQRPage extends StatelessWidget {
                   "/" +
                   pass.expires.toDate().day.toString() +
                   "/" +
-                  pass.expires.toDate().year.toString(),
+                  pass.expires.toDate().year.toString() +
+                  " at " +
+                  formattedTime(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
