@@ -26,8 +26,6 @@ class Car {
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 }
 
-List<Car> kCars = [];
-
 final List<String> kCarMakes = [
   "Acura",
   "Alfa Romeo",

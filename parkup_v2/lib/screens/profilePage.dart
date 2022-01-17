@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:parkup_v2/model/passModel.dart';
-import 'package:parkup_v2/model/carModel.dart';
 import 'package:parkup_v2/screens/welcome/welcomePage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -13,6 +12,8 @@ class ProfilePage extends StatelessWidget {
 
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
     Color njitRed = const Color(0xffCD0200);
+
+    final FirebaseAuth auth = FirebaseAuth.instance;
 
     return Scaffold(
       appBar: AppBar(
@@ -27,12 +28,7 @@ class ProfilePage extends StatelessWidget {
             Icon(Icons.account_circle, size: 200),
             SizedBox(height: 0),
             Text(
-              "User Name",
-              style: nameStyle,
-            ),
-            SizedBox(height: 20),
-            Text(
-              "Type of User",
+              auth.currentUser.email,
               style: nameStyle,
             ),
             SizedBox(height: 20),
@@ -44,8 +40,6 @@ class ProfilePage extends StatelessWidget {
                 minWidth: MediaQuery.of(context).size.width - 80,
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20),
                 onPressed: () {
-                  kPasses = [];
-                  kCars = [];
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WelcomePage()),

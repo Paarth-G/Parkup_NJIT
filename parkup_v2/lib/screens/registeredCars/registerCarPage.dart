@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parkup_v2/screens/tabBarScreen.dart';
 import 'package:parkup_v2/model/carModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterCarPage extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class RegisterCarPage extends StatefulWidget {
 class _RegisterCarPageState extends State<RegisterCarPage> {
   final List<DropdownMenuItem> items = [];
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   TextStyle infoStyle = TextStyle(
     fontSize: 25,
@@ -49,9 +51,10 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
             children: [
               Text("Make", style: infoStyle),
               DropdownSearch<String>(
-                mode: Mode.MENU,
+                mode: Mode.DIALOG,
                 items: kCarMakes,
                 selectedItem: make,
+                showSearchBox: true,
                 showClearButton: true,
                 hint: "Honda, Toyota, BMW, etc.",
                 onChanged: (value) {
@@ -75,9 +78,10 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
               ),*/
               Text("Style", style: infoStyle),
               DropdownSearch(
-                mode: Mode.MENU,
+                mode: Mode.DIALOG,
                 items: kStyles,
                 selectedItem: style,
+                showSearchBox: true,
                 showClearButton: true,
                 hint: "SUV, Convertible, etc.",
                 onChanged: (value) {
@@ -88,10 +92,11 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
               ),
               Text("Color", style: infoStyle),
               DropdownSearch(
-                mode: Mode.MENU,
+                mode: Mode.DIALOG,
                 items: kColors,
                 selectedItem: color,
                 showClearButton: true,
+                showSearchBox: true,
                 hint: "Red, Blue, White, etc.",
                 onChanged: (value) {
                   setState(() {
@@ -103,10 +108,11 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
               Text("License Plate", style: infoStyle),
               licensePlateField,
               DropdownSearch(
-                mode: Mode.MENU,
+                mode: Mode.DIALOG,
                 items: kStates,
                 selectedItem: state,
                 showClearButton: true,
+                showSearchBox: true,
                 hint: "State",
                 onChanged: (value) {
                   setState(() {
@@ -136,6 +142,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                     'color': color,
                     'licensePlate': plate,
                     'state': state,
+                    'userid': _auth.currentUser.uid,
                   });
 
                   Navigator.push(

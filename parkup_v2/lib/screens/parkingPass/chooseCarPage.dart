@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkup_v2/model/carModel.dart';
 import 'package:parkup_v2/library/reusableCard.dart';
@@ -12,6 +13,7 @@ class ChooseCarPage extends StatelessWidget {
 
   final String lot, address, type;
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   static TextStyle titleStyle = TextStyle(
     fontSize: 30,
@@ -31,7 +33,10 @@ class ChooseCarPage extends StatelessWidget {
             children: [
               SizedBox(height: 10),
               StreamBuilder(
-                stream: _firestore.collection("cars").snapshots(),
+                stream: _firestore
+                    .collection("cars")
+                    .where('userid', isEqualTo: _auth.currentUser.uid)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(

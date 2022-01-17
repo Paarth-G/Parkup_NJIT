@@ -1,11 +1,10 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:parkup_v2/library/reusableCard.dart';
-import 'package:parkup_v2/model/carModel.dart';
 import 'package:parkup_v2/model/creditCardModel.dart';
-import 'package:parkup_v2/model/passModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../tabBarScreen.dart';
@@ -42,6 +41,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   Color njitBlue = const Color(0xff010033);
 
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -283,6 +283,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   'starts': currentTime,
                   'expires': endTime,
                   'plate': widget.plate,
+                  'userid': _auth.currentUser.uid,
                 });
 
                 Navigator.push(

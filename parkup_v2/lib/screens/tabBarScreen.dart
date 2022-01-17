@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkup_v2/screens/parkingPass/viewPassesPage.dart';
 import 'package:parkup_v2/screens/registeredCars/viewCarsPage.dart';
-import 'parkingPass/passesPage.dart';
 import 'profilePage.dart';
 
 class TabBarScreen extends StatefulWidget {

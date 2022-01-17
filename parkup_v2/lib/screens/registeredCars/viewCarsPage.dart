@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkup_v2/model/carModel.dart';
@@ -12,9 +13,14 @@ class ViewCarsPage extends StatefulWidget {
 class _ViewCarsPageState extends State<ViewCarsPage> {
   Color _njitRed = const Color(0xffCD0200);
 
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('cars').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('cars')
+          .where('userid', isEqualTo: auth.currentUser.uid)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 

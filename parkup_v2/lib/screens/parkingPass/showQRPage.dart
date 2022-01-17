@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkup_v2/model/passModel.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ShowQRPage extends StatelessWidget {
   ShowQRPage({this.pass});
@@ -27,14 +28,9 @@ class ShowQRPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 25),
-            Flexible(
-              child: SizedBox(
-                height: 200.0,
-                child: Image.asset(
-                  "assets/images/demoQR.png",
-                  fit: BoxFit.contain,
-                ),
-              ),
+            QrImage(
+              data: pass.reference.id,
+              size: 200,
             ),
             SizedBox(height: 20),
             Text(

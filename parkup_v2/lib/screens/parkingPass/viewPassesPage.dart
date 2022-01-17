@@ -4,6 +4,7 @@ import 'package:parkup_v2/model/passModel.dart';
 import 'package:parkup_v2/screens/parkingPass/chooseLotPage.dart';
 import 'package:parkup_v2/screens/parkingPass/showQRPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ViewPassesPage extends StatefulWidget {
   @override
@@ -13,11 +14,18 @@ class ViewPassesPage extends StatefulWidget {
 class _ViewPassesPageState extends State<ViewPassesPage> {
   Color _njitRed = const Color(0xffCD0200);
 
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('passes').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('passes')
+          .where('userid', isEqualTo: auth.currentUser.uid)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
+
+        print(snapshot.data.size);
 
         return DataTable(
           columns: [
@@ -72,6 +80,26 @@ class _ViewPassesPageState extends State<ViewPassesPage> {
     ]);
   }
 
+  noCarsAlertDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("No Cars Registered"),
+          content: Text("You must register a car before buying a pass."),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,11 +115,29 @@ class _ViewPassesPageState extends State<ViewPassesPage> {
                 fontSize: 25,
               ),
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ChooseLotPage()),
-              );
+            onPressed: () async {
+              Future<bool> _hasCars() async {
+                QuerySnapshot _query = await FirebaseFirestore.instance
+                    .collection('cars')
+                    .where('userid', isEqualTo: auth.currentUser.uid)
+                    .get();
+                if (_query.docs.isNotEmpty) {
+                  return true;
+                } else {
+                  return false;
+                }
+              }
+
+              bool _has = await _hasCars();
+
+              if (_has) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChooseLotPage()),
+                );
+              } else {
+                noCarsAlertDialog(context);
+              }
             },
           )
         ],

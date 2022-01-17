@@ -35,7 +35,6 @@ class ChooseLotPage extends StatelessWidget {
                   List<Widget> lotWidgets = [];
                   for (var lot in lots) {
                     final String lotName = lot.data()['name'];
-                    print(lotName);
                     final lotWidget = LotButton(
                       code: lot.data()['code'],
                       lotName: lot.data()['name'],

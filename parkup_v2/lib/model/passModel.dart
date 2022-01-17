@@ -26,5 +26,3 @@ class Pass {
   Pass.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 }
-
-List<Pass> kPasses = [];
