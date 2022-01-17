@@ -25,6 +25,26 @@ class _LoginPageState extends State<LoginPage> {
   Color njitRed = const Color(0xffCD0200);
   Color njitBlue = const Color(0xff010033);
 
+  cantLoginAlertDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Login Failed"),
+          content: Text("Email or password is incorrect.\nPlease try again."),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final emailField = TextField(
@@ -111,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           showSpinner = false;
                         });
-                        print(e);
+                        cantLoginAlertDialog(context);
                       }
                     },
                     child: Text(
